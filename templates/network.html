@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+
+{% extends 'base.html' %}
+{% load custom_filters %}
+
+{% block topbar %}
+
+<div id="school_form_div">
+    <form id="school_form"> {% csrf_token %}
+
+        {{ forms.school.schools | addclass:"form-control" }}
+
+    </form>
+
+</div>
+
+{% endblock %}
+
+{% block body_block %}
+
+<script type="text/javascript">
+
+var vis_data = {{ vis_data }};
+var network;
+
+function draw(vis_data) {
+
+    var nodes = vis_data["nodes"];
+    var edges = vis_data["edges"];
+    var container = document.getElementById('mynetwork');
+    var data = {
+        nodes: nodes,
+        edges: edges
+    };
+    var options = {
+        nodes: {
+            shape: 'dot',
+            size: 16
+        },
+        physics: {
+            forceAtlas2Based: {
+                gravitationalConstant: -26,
+                centralGravity: 0.005,
+                springLength: 230,
+                springConstant: 0.18
+            },
+            maxVelocity: 146,
+            solver: 'forceAtlas2Based',
+            timestep: 0.35,
+            stabilization: {iterations: 150}
+        },
+        layout: {
+            improvedLayout:false
+        }
+    };
+    network = new vis.Network(container, data, options);
+}
+
+</script>
+
+<script type="text/javascript">
+    
+    $("#id_schools").change(function(){
+        $.post('network', $('#school_form').serialize(), function(resp_data){
+            network.setData({"nodes":resp_data.nodes, "edges":resp_data.edges});
+
+        });
+    });
+
+
+</script>
+
+<img id="loading" class="centered" src="/static/loading.gif">
+
+<div id="mynetwork" class="centered">
+</div>
+
+<script type="text/javascript">
+
+    $(document).ready(function(){
+        draw(vis_data);
+        network.on("afterDrawing", function() { 
+            $("#loading").hide();
+        });
+    });
+
+</script>
+
+{% endblock %}

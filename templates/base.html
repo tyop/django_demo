@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+
+{% load staticfiles %}
+
+<html>
+<head>
+    <title>Schools, classrooms, and students</title>
+
+
+    <!-- Good ol' jQuery -->
+
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+
+
+    <!-- Vis.js network graph plugin -->
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Bootstrap (dropdown and select styling) -->
+
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+    <!-- custom CSS -->
+
+    <link rel="stylesheet" type="text/css" href="{% static "django_demo.css" %}">
+
+
+</head>
+
+<body>
+
+    <!-- base.html -->
+    <div id="topbar">
+
+        <div class="dropdown navbar-fixed-top">
+            <button class="btn btn-default dropdown-toggle" type="button" id="menu1" data-toggle="dropdown"> <span class="glyphicon glyphicon-menu-hamburger"></span>
+
+            </button>
+            <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
+                <li role="presentation"><a role="menuitem" tabindex="-1" href="/django_demo/network">Network</a></li>
+                <li role="presentation" class="divider"></li>
+                <li role="presentation"><a role="menuitem" tabindex="-1" href="/admin">Admin</a></li>
+
+            </ul>
+
+            {% block topbar %}
+            {% endblock %}  
+
+        </div>
+
+    </div>
+
+<div id="page">
+
+    {% block body_block %}
+
+    {% endblock %}   
+
+</div>
+
+</body>
+</html>
