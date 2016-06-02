@@ -77,7 +77,7 @@ class Student(models.Model):
         # allow students without classrooms in DB and admin panel
         null=True,
         blank=True,
-        # don't cascade - leave affected studentd intact if classroom is deleted
+        # don't cascade - leave affected students intact if classroom is deleted
         on_delete=models.SET_NULL,
         related_name="children"
     )  
